@@ -1,25 +1,27 @@
-name: Deploy App
+name: Deploy to Vercel
 
 on:
-  repository_dispatch:
-    types: [deploy_app]
+  workflow_dispatch:
+    inputs:
+      user_name:
+        description: "Name of the user triggering the deployment"
+        required: true
+        default: "Anonymous"
 
 jobs:
-  test-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     env:
-      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-      DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-      CLIENT_NAME: ${{ github.event.client_payload.name }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      USER_NAME: ${{ github.event.inputs.user_name }}
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js for tests
+      # Step 2: Set up Node.js for testing
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -28,31 +30,28 @@ jobs:
       # Step 3: Install dependencies and run tests
       - name: Install dependencies and run tests
         run: |
+          echo "Running tests for user: $USER_NAME"
           npm install
-          npm test
+          npm run test
 
-      # Step 4: Log in to Docker Hub
-      - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
-
-      # Step 5: Build and push the Docker image
-      - name: Build and push Docker image
+      # Step 4: Deploy to Vercel
+      - name: Deploy to Vercel
         run: |
-          docker build -t $DOCKERHUB_USERNAME/portfolio-app:${{ github.run_id }} .
-          docker push $DOCKERHUB_USERNAME/portfolio-app:${{ github.run_id }}
-
-      # Step 6: Deploy to Render
-      - name: Deploy to Render
-        run: |
-          curl -X POST \
-          -H "Authorization: Bearer $RENDER_API_KEY" \
-          -H "Content-Type: application/json" \
-          -d '{
-            "serviceId": "YOUR_RENDER_SERVICE_ID",
-            "clearCache": false,
-            "envVars": {
-              "CLIENT_NAME": "'${{ github.event.client_payload.name }}'"
+          curl -X POST "https://api.vercel.com/v10/projects" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" -H "Content-Type: application/json" \
+            -d '{
+            "name": "ephimeral-project-'$USER_NAME'"
+            "buildCommand": "npm run build",
+            "environmentVariables": [
+                {
+                    "key": "USER_NAME",
+                    "target": "production",
+                    "value": "'$USER_NAME'"
+                }
+            ],
+            "gitRepository": {
+                "repo": "porfolio-pipeline",
+                "type": "github"
             },
-            "image": "docker.io/'${{ secrets.DOCKERHUB_USERNAME }}/portfolio-app:${{ github.run_id }}'"
-          }' \
-          https://api.render.com/v1/services/YOUR_RENDER_SERVICE_ID/deploys
+            "installCommand": "npm install",
+          }'
