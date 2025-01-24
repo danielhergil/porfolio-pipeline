@@ -6,6 +6,9 @@ function App() {
     window.location.href = 'https://danihg-portfolio.vercel.app/';
   };
 
+  // Access the USER_NAME environment variable
+  const userName = process.env.NEXT_PUBLIC_USER_NAME || 'Anonymous';
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -20,7 +23,7 @@ function App() {
               <span>Back to Portfolio</span>
             </button>
             <a
-              href="https://github.com/yourusername/portfolio-cicd-demo"
+              href="https://github.com/danielhergil/porfolio-pipeline"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
@@ -32,7 +35,7 @@ function App() {
 
           {/* Main Content */}
           <div className="bg-gray-800 rounded-lg p-8 shadow-xl">
-            <h1 className="text-3xl font-bold mb-6">CI/CD Pipeline Demo</h1>
+            <h1 className="text-3xl font-bold mb-6">Custom CI/CD Pipeline Demo  - {userName}</h1>
             
             {/* Pipeline Status */}
             <div className="mb-8">
