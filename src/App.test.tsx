@@ -1,12 +1,25 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import App from './App';
 
 describe('App Component', () => {
-  it('renders main heading', () => {
+  beforeEach(() => {
+    // Mock the environment variable for the test
+    process.env.NEXT_PUBLIC_USER_NAME = 'TestUser';
+  });
+
+  it('renders main heading with dynamic userName', () => {
     render(<App />);
-    expect(screen.getByText('CI/CD Pipeline Demo')).toBeInTheDocument();
+
+    // Match the heading by partial text, ignoring the split between "Custom CI/CD Pipeline Demo -" and "TestUser"
+    expect(
+      screen.getByText((content, element) => {
+        const hasText = (text: string) => text.includes('Custom CI/CD Pipeline Demo');
+        const matches = hasText(content) && element?.textContent?.includes('TestUser');
+        return matches;
+      })
+    ).toBeInTheDocument();
   });
 
   it('renders pipeline status sections', () => {
