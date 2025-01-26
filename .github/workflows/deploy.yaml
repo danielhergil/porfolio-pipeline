@@ -66,7 +66,10 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add names.txt
           git commit -m "Add $USER_NAME to names.txt"
-          git push
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Step 3: Wait for 1 minutes
       - name: Wait for 1 minutes
