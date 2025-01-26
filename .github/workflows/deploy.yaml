@@ -71,6 +71,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 3: Wait for 1 minutes
-      - name: Wait for 1 minutes
-        run: sleep 60
+      # Step 6: Wait for 1 minutes
+      - name: Wait for 2 minutes
+        run: sleep 120
+
+      # Step 7: Delete the deployment
+      - name: Delete the deployment
+        run: |
+          curl -X DELETE "https://api.vercel.com/v9/projects/$USER_NAME" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H "Content-Type: application/json"
