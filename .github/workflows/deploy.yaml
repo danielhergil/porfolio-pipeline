@@ -38,20 +38,17 @@ jobs:
       - name: Deploy to Vercel
         run: |
           curl -X POST "https://api.vercel.com/v10/projects" \
-            -H "Authorization: Bearer $VERCEL_TOKEN" -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $VERCEL_TOKEN" \
+            -H "Content-Type: application/json" \
             -d '{
-            "name": "ephimeral-project-'$USER_NAME'"
-            "buildCommand": "npm run build",
-            "environmentVariables": [
-                {
-                    "key": "USER_NAME",
-                    "target": "production",
-                    "value": "'$USER_NAME'"
-                }
-            ],
-            "gitRepository": {
-                "repo": "porfolio-pipeline",
-                "type": "github"
-            },
-            "installCommand": "npm install",
-          }'
+                "name": "ephimeral-project-'$USER_NAME'",
+                "buildCommand": "npm run build",
+                "environmentVariables": {
+                    "USER_NAME": "'$USER_NAME'"
+                },
+                "gitRepository": {
+                    "repo": "porfolio-pipeline",
+                    "type": "github"
+                },
+                "installCommand": "npm install"
+            }'
