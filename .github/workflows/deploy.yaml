@@ -78,6 +78,6 @@ jobs:
       # Step 7: Delete the deployment
       - name: Delete the deployment
         run: |
-          curl -X DELETE "https://api.vercel.com/v9/projects/$USER_NAME" \
+          curl -X DELETE "https://api.vercel.com/v9/projects/ephimeral-project-$USER_NAME" \
             -H "Authorization: Bearer $VERCEL_TOKEN" \
             -H "Content-Type: application/json"
