@@ -57,3 +57,17 @@ jobs:
                 },
                 "installCommand": "npm install"
             }'
+
+      # Step 5: Append the USER_NAME to names.txt
+      - name: Append user name to names.txt
+        run: |
+          echo "$USER_NAME" >> names.txt
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add names.txt
+          git commit -m "Add $USER_NAME to names.txt"
+          git push
+
+      # Step 3: Wait for 1 minutes
+      - name: Wait for 1 minutes
+        run: sleep 60
