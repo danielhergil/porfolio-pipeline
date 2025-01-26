@@ -43,9 +43,13 @@ jobs:
             -d '{
                 "name": "ephimeral-project-'$USER_NAME'",
                 "buildCommand": "npm run build",
-                "environmentVariables": {
-                    "USER_NAME": "'$USER_NAME'"
-                },
+                "environmentVariables": [
+                    {
+                        "key": "USER_NAME",
+                        "target": "production",
+                        "value": "'$USER_NAME'"
+                    }
+                ],
                 "gitRepository": {
                     "repo": "porfolio-pipeline",
                     "type": "github"
