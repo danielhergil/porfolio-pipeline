@@ -47,7 +47,7 @@ jobs:
                     {
                         "key": "USER_NAME",
                         "target": "production",
-                        "type": "system",
+                        "plain": "system",
                         "value": "'$USER_NAME'"
                     }
                 ],
