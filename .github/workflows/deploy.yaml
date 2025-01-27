@@ -7,9 +7,6 @@ on:
         description: "Name of the user triggering the deployments"
         required: true
         default: "Anonymous"
-      deployment_id:
-        description: "Unique deployment ID"
-        required: true
 
 jobs:
   deploy:
