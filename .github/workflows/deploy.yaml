@@ -58,8 +58,7 @@ jobs:
                 "installCommand": "npm install"
             }'
 
-      # Step 5: Append the USER_NAME to names.txt
-      - name: Append user name to names.txt
+      - name: Record deployment
         run: |
           echo "$USER_NAME" >> names.txt
           git config --global user.name "github-actions[bot]"
@@ -68,16 +67,15 @@ jobs:
           git commit -m "Add $USER_NAME to names.txt"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 6: Wait for 1 minutes
-      - name: Wait for 2 minutes
-        run: sleep 120
-
-      # Step 7: Delete the deployment
-      - name: Delete the deployment
+      - name: Wait for deployment to be ready
         run: |
-          curl -X DELETE "https://api.vercel.com/v9/projects/ephimeral-project-$USER_NAME" \
-            -H "Authorization: Bearer $VERCEL_TOKEN" \
-            -H "Content-Type: application/json"
+          while true; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "https://ephimeral-project-$USER_NAME.vercel.app/")
+            if [ "$STATUS" -eq 200 ]; then
+              echo "Deployment ready!"
+              break
+            fi
+            echo "Waiting for deployment to be ready..."
+            sleep 10
+          done
