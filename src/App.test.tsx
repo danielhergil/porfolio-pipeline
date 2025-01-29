@@ -25,7 +25,7 @@ describe('App Component', () => {
   it('renders pipeline status sections', () => {
     render(<App />);
     expect(screen.getByText('🧪 Unit Tests')).toBeInTheDocument();
-    expect(screen.getByText('🐳 Docker Build')).toBeInTheDocument();
+    expect(screen.getByText('⚙ Github Actions Build')).toBeInTheDocument();
     expect(screen.getByText('🚀 Deployment')).toBeInTheDocument();
   });
 
