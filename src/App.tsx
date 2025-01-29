@@ -7,7 +7,7 @@ function App() {
   };
 
   // Access the USER_NAME environment variable
-  const userName = process.env.NEXT_PUBLIC_USER_NAME || 'Anonymous';
+  const userName = import.meta.env.VITE_USER_NAME || 'Anonymous';
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white">

@@ -6,7 +6,7 @@ import App from './App';
 describe('App Component', () => {
   beforeEach(() => {
     // Mock the environment variable for the test
-    process.env.NEXT_PUBLIC_USER_NAME = 'TestUser';
+    import.meta.env.VITE_USER_NAME = 'TestUser';
   });
 
   it('renders main heading with dynamic userName', () => {
