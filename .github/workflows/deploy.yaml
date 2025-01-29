@@ -47,7 +47,6 @@ jobs:
                     {
                         "key": "NEXT_PUBLIC_USER_NAME",
                         "target": "production",
-                        "type": "plain",
                         "value": "'$USER_NAME'"
                     }
                 ],
