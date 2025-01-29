@@ -45,7 +45,7 @@ jobs:
                 "buildCommand": "npm run build",
                 "environmentVariables": [
                     {
-                        "key": "USER_NAME",
+                        "key": "NEXT_PUBLIC_USER_NAME",
                         "target": "production",
                         "type": "plain",
                         "value": "'$USER_NAME'"
