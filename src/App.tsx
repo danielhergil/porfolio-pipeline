@@ -45,16 +45,17 @@ function App() {
               </div>
               
               <div className="space-y-4">
+
+                <div className="bg-gray-700 rounded-lg p-4">
+                  <h3 className="font-semibold mb-2">⚙ Github Actions Build</h3>
+                  <p className="text-green-400">✓ Github Action triggered</p>
+                  <p className="text-sm text-gray-400 mt-2">Workflow triggered using the user input name</p>
+                </div>
+
                 <div className="bg-gray-700 rounded-lg p-4">
                   <h3 className="font-semibold mb-2">🧪 Unit Tests</h3>
                   <p className="text-green-400">✓ All tests passed successfully</p>
                   <p className="text-sm text-gray-400 mt-2">Tests verify core functionality and component rendering</p>
-                </div>
-
-                <div className="bg-gray-700 rounded-lg p-4">
-                  <h3 className="font-semibold mb-2">🐳 Docker Build</h3>
-                  <p className="text-green-400">✓ Container image built and pushed</p>
-                  <p className="text-sm text-gray-400 mt-2">Application containerized for consistent deployment</p>
                 </div>
 
                 <div className="bg-gray-700 rounded-lg p-4">
@@ -71,8 +72,8 @@ function App() {
               <ol className="list-decimal list-inside space-y-3 text-gray-300">
                 <li>You clicked a button on my portfolio that triggered a GitHub Actions workflow</li>
                 <li>The workflow ran a comprehensive suite of unit tests to ensure code quality</li>
-                <li>After successful tests, a Docker image was built and pushed to the registry</li>
-                <li>Finally, the application was automatically deployed to Render as a web service</li>
+                <li>After successful tests, the workflow use Vercel REST API to create the deployment</li>
+                <li>Finally, the application was automatically deployed to Vercel for 10 minutes</li>
               </ol>
             </div>
           </div>
